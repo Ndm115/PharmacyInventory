@@ -1,6 +1,7 @@
 package pharmacyinventory;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class AdminDashboard extends JFrame {
@@ -20,125 +21,126 @@ public class AdminDashboard extends JFrame {
 
         // Main panel
         JPanel mainPanel = new JPanel(null);
-        mainPanel.setBackground(new Color(240, 248, 255));
+        mainPanel.setBackground(new Color(240, 248, 252));
 
-        // Title
+        
+        // HEADER
+        //------------------------
+
+        JPanel headerPanel = new JPanel(null);
+        headerPanel.setBackground(new Color(45, 105, 135));
+        headerPanel.setBounds(0, 0, 850, 105);
+
         JLabel titleLabel = new JLabel("Admin Dashboard");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 26));
-        titleLabel.setBounds(30, 20, 300, 35);
-        mainPanel.add(titleLabel);
+        titleLabel.setForeground(Color.WHITE);
+        titleLabel.setBounds(30, 20, 350, 35);
+        headerPanel.add(titleLabel);
 
-        // Welcome message
         JLabel welcomeLabel = new JLabel("Welcome, " + adminName);
         welcomeLabel.setFont(new Font("Arial", Font.PLAIN, 15));
-        welcomeLabel.setBounds(30, 55, 400, 25);
-        mainPanel.add(welcomeLabel);
+        welcomeLabel.setForeground(new Color(225, 240, 248));
+        welcomeLabel.setBounds(30, 58, 400, 25);
+        headerPanel.add(welcomeLabel);
 
-        // --------------------------------
+        JLabel systemLabel = new JLabel(
+                "HealthFirst Pharmacy",
+                SwingConstants.RIGHT
+        );
+        systemLabel.setFont(new Font("Arial", Font.BOLD, 15));
+        systemLabel.setForeground(Color.WHITE);
+        systemLabel.setBounds(550, 35, 250, 30);
+        headerPanel.add(systemLabel);
+
+        mainPanel.add(headerPanel);
+
+       
         // TABBED PANE
-        // --------------------------------
+        //------------------------
 
         JTabbedPane tabbedPane = new JTabbedPane();
-        tabbedPane.setBounds(30, 100, 770, 370);
+        tabbedPane.setFont(new Font("Arial", Font.BOLD, 13));
+        tabbedPane.setBackground(Color.WHITE);
+        tabbedPane.setBounds(30, 130, 770, 350);
 
-        // --------------------------------
+        
         // MEDICINES TAB
-        // --------------------------------
+        //------------------------
 
-        JPanel medicinesPanel = new JPanel(null);
-        medicinesPanel.setBackground(Color.WHITE);
+        JPanel medicinesPanel = createTabPanel();
 
-        JLabel medicinesTitle = new JLabel("Medicine Management");
-        medicinesTitle.setFont(new Font("Arial", Font.BOLD, 20));
-        medicinesTitle.setBounds(30, 30, 300, 30);
+        JLabel medicinesTitle = createTitle("Medicine Management");
         medicinesPanel.add(medicinesTitle);
 
-        JLabel medicinesInfo = new JLabel(
+        JLabel medicinesInfo = createInfo(
                 "Add, update, delete and view pharmacy medicines."
         );
-        medicinesInfo.setBounds(30, 75, 400, 25);
         medicinesPanel.add(medicinesInfo);
 
-        JButton medicinesButton = new JButton("Manage Medicines");
-        medicinesButton.setBounds(30, 130, 200, 45);
+        JButton medicinesButton = createMainButton("Manage Medicines");
         medicinesPanel.add(medicinesButton);
 
         medicinesButton.addActionListener(e -> {
             new MedicineManagement().setVisible(true);
         });
 
-        // --------------------------------
+        
         // SUPPLIERS TAB
-        // --------------------------------
+        //------------------------
 
-        JPanel suppliersPanel = new JPanel(null);
-        suppliersPanel.setBackground(Color.WHITE);
+        JPanel suppliersPanel = createTabPanel();
 
-        JLabel suppliersTitle = new JLabel("Supplier Management");
-        suppliersTitle.setFont(new Font("Arial", Font.BOLD, 20));
-        suppliersTitle.setBounds(30, 30, 300, 30);
+        JLabel suppliersTitle = createTitle("Supplier Management");
         suppliersPanel.add(suppliersTitle);
 
-        JLabel suppliersInfo = new JLabel(
+        JLabel suppliersInfo = createInfo(
                 "Add, update, delete and view pharmacy suppliers."
         );
-        suppliersInfo.setBounds(30, 75, 400, 25);
         suppliersPanel.add(suppliersInfo);
 
-        JButton suppliersButton = new JButton("Manage Suppliers");
-        suppliersButton.setBounds(30, 130, 200, 45);
+        JButton suppliersButton = createMainButton("Manage Suppliers");
         suppliersPanel.add(suppliersButton);
 
         suppliersButton.addActionListener(e -> {
             new SupplierManagement().setVisible(true);
         });
 
-        // --------------------------------
+        
         // USERS TAB
-        // --------------------------------
+        //------------------------
 
-        JPanel usersPanel = new JPanel(null);
-        usersPanel.setBackground(Color.WHITE);
+        JPanel usersPanel = createTabPanel();
 
-        JLabel usersTitle = new JLabel("User Management");
-        usersTitle.setFont(new Font("Arial", Font.BOLD, 20));
-        usersTitle.setBounds(30, 30, 300, 30);
+        JLabel usersTitle = createTitle("User Management");
         usersPanel.add(usersTitle);
 
-        JLabel usersInfo = new JLabel(
+        JLabel usersInfo = createInfo(
                 "Create, update and delete Cashier accounts."
         );
-        usersInfo.setBounds(30, 75, 400, 25);
         usersPanel.add(usersInfo);
 
-        JButton usersButton = new JButton("Manage Users");
-        usersButton.setBounds(30, 130, 200, 45);
+        JButton usersButton = createMainButton("Manage Users");
         usersPanel.add(usersButton);
 
         usersButton.addActionListener(e -> {
             new UserManagement().setVisible(true);
         });
 
-        // --------------------------------
+        
         // REPORTS TAB
-        // --------------------------------
+        //------------------------
 
-        JPanel reportsPanel = new JPanel(null);
-        reportsPanel.setBackground(Color.WHITE);
+        JPanel reportsPanel = createTabPanel();
 
-        JLabel reportsTitle = new JLabel("Reports");
-        reportsTitle.setFont(new Font("Arial", Font.BOLD, 20));
-        reportsTitle.setBounds(30, 30, 300, 30);
+        JLabel reportsTitle = createTitle("Reports");
         reportsPanel.add(reportsTitle);
 
-        JLabel reportsInfo = new JLabel(
+        JLabel reportsInfo = createInfo(
                 "View sales, item-wise, low stock and expiry reports."
         );
-        reportsInfo.setBounds(30, 75, 450, 25);
         reportsPanel.add(reportsInfo);
 
-        JButton reportsButton = new JButton("View Reports");
-        reportsButton.setBounds(30, 130, 200, 45);
+        JButton reportsButton = createMainButton("View Reports");
         reportsPanel.add(reportsButton);
 
         reportsButton.addActionListener(e -> {
@@ -153,12 +155,16 @@ public class AdminDashboard extends JFrame {
 
         mainPanel.add(tabbedPane);
 
-        // --------------------------------
+       
         // LOGOUT
-        // --------------------------------
+        //------------------------
 
         JButton logoutButton = new JButton("Logout");
-        logoutButton.setBounds(650, 495, 150, 40);
+        logoutButton.setFont(new Font("Arial", Font.BOLD, 13));
+        logoutButton.setForeground(Color.WHITE);
+        logoutButton.setBackground(new Color(180, 70, 70));
+        logoutButton.setFocusPainted(false);
+        logoutButton.setBounds(650, 505, 150, 38);
         mainPanel.add(logoutButton);
 
         logoutButton.addActionListener(e -> {
@@ -167,5 +173,63 @@ public class AdminDashboard extends JFrame {
         });
 
         add(mainPanel);
+    }
+
+    
+    // CREATE TAB PANEL
+    //------------------------
+
+    private JPanel createTabPanel() {
+
+        JPanel panel = new JPanel(null);
+        panel.setBackground(Color.WHITE);
+        panel.setBorder(new EmptyBorder(10, 10, 10, 10));
+
+        return panel;
+    }
+
+    
+    // CREATE TAB TITLE
+    //------------------------
+
+    private JLabel createTitle(String text) {
+
+        JLabel label = new JLabel(text);
+        label.setFont(new Font("Arial", Font.BOLD, 21));
+        label.setForeground(new Color(45, 105, 135));
+        label.setBounds(35, 35, 350, 30);
+
+        return label;
+    }
+
+   
+    // CREATE DESCRIPTION
+    //------------------------
+
+    private JLabel createInfo(String text) {
+
+        JLabel label = new JLabel(text);
+        label.setFont(new Font("Arial", Font.PLAIN, 14));
+        label.setForeground(new Color(70, 70, 70));
+        label.setBounds(35, 80, 500, 25);
+
+        return label;
+    }
+
+   
+    // CREATE MANAGEMENT BUTTON
+    //------------------------
+
+    private JButton createMainButton(String text) {
+
+        JButton button = new JButton(text);
+        button.setFont(new Font("Arial", Font.BOLD, 14));
+        button.setForeground(Color.WHITE);
+        button.setBackground(new Color(45, 105, 135));
+        button.setFocusPainted(false);
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        button.setBounds(35, 135, 210, 42);
+
+        return button;
     }
 }
