@@ -1,6 +1,7 @@
 package pharmacyinventory;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.sql.*;
@@ -21,112 +22,189 @@ public class MedicineManagement extends JFrame {
 
     public MedicineManagement() {
 
+        // Window settings
         setTitle("HealthFirst Pharmacy - Manage Medicines");
-        setSize(1000, 650);
+        setSize(1000, 680);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
+        setResizable(false);
 
         JPanel panel = new JPanel(null);
-        panel.setBackground(new Color(240, 248, 255));
+        panel.setBackground(new Color(240, 248, 252));
 
-        JLabel titleLabel = new JLabel("Manage Medicines");
+        
+        // HEADER
+        // --------------------------------
+
+        JPanel headerPanel = new JPanel(null);
+        headerPanel.setBackground(new Color(45, 105, 135));
+        headerPanel.setBounds(0, 0, 1000, 90);
+
+        JLabel titleLabel = new JLabel("Medicine Management");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 25));
-        titleLabel.setBounds(30, 20, 300, 35);
-        panel.add(titleLabel);
+        titleLabel.setForeground(Color.WHITE);
+        titleLabel.setBounds(30, 17, 350, 35);
+        headerPanel.add(titleLabel);
+
+        JLabel subtitleLabel = new JLabel(
+                "Add, update and manage pharmacy medicines"
+        );
+        subtitleLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        subtitleLabel.setForeground(new Color(225, 240, 248));
+        subtitleLabel.setBounds(30, 50, 400, 25);
+        headerPanel.add(subtitleLabel);
+
+        panel.add(headerPanel);
+
+        
+        // MEDICINE DETAILS CARD
+        // --------------------------------
+
+        JPanel formPanel = new JPanel(null);
+        formPanel.setBackground(Color.WHITE);
+        formPanel.setBorder(new LineBorder(new Color(205, 215, 220)));
+        formPanel.setBounds(30, 110, 920, 180);
+
+        JLabel detailsLabel = new JLabel("Medicine Details");
+        detailsLabel.setFont(new Font("Arial", Font.BOLD, 17));
+        detailsLabel.setForeground(new Color(45, 105, 135));
+        detailsLabel.setBounds(20, 10, 200, 25);
+        formPanel.add(detailsLabel);
 
         // Medicine name
         JLabel nameLabel = new JLabel("Medicine Name:");
-        nameLabel.setBounds(30, 80, 120, 25);
-        panel.add(nameLabel);
+        nameLabel.setFont(new Font("Arial", Font.BOLD, 12));
+        nameLabel.setBounds(20, 50, 110, 25);
+        formPanel.add(nameLabel);
 
         nameField = new JTextField();
-        nameField.setBounds(150, 80, 200, 28);
-        panel.add(nameField);
+        nameField.setBounds(130, 50, 160, 28);
+        formPanel.add(nameField);
 
         // Company
         JLabel companyLabel = new JLabel("Company:");
-        companyLabel.setBounds(30, 120, 120, 25);
-        panel.add(companyLabel);
+        companyLabel.setFont(new Font("Arial", Font.BOLD, 12));
+        companyLabel.setBounds(20, 95, 110, 25);
+        formPanel.add(companyLabel);
 
         companyField = new JTextField();
-        companyField.setBounds(150, 120, 200, 28);
-        panel.add(companyField);
+        companyField.setBounds(130, 95, 160, 28);
+        formPanel.add(companyField);
 
-        // Medicine type
+        // Type
         JLabel typeLabel = new JLabel("Type:");
-        typeLabel.setBounds(30, 160, 120, 25);
-        panel.add(typeLabel);
+        typeLabel.setFont(new Font("Arial", Font.BOLD, 12));
+        typeLabel.setBounds(320, 50, 100, 25);
+        formPanel.add(typeLabel);
 
         typeBox = new JComboBox<>(
                 new String[]{"Tablet", "Capsule", "Syrup",
                     "Injection", "Cream"}
         );
-        typeBox.setBounds(150, 160, 200, 28);
-        panel.add(typeBox);
+        typeBox.setBounds(420, 50, 150, 28);
+        formPanel.add(typeBox);
 
         // Price
-        JLabel priceLabel = new JLabel("Price:");
-        priceLabel.setBounds(400, 80, 120, 25);
-        panel.add(priceLabel);
+        JLabel priceLabel = new JLabel("Price (R):");
+        priceLabel.setFont(new Font("Arial", Font.BOLD, 12));
+        priceLabel.setBounds(320, 95, 100, 25);
+        formPanel.add(priceLabel);
 
         priceField = new JTextField();
-        priceField.setBounds(520, 80, 180, 28);
-        panel.add(priceField);
+        priceField.setBounds(420, 95, 150, 28);
+        formPanel.add(priceField);
 
         // Stock
         JLabel stockLabel = new JLabel("Stock Quantity:");
-        stockLabel.setBounds(400, 120, 120, 25);
-        panel.add(stockLabel);
+        stockLabel.setFont(new Font("Arial", Font.BOLD, 12));
+        stockLabel.setBounds(600, 50, 110, 25);
+        formPanel.add(stockLabel);
 
         stockField = new JTextField();
-        stockField.setBounds(520, 120, 180, 28);
-        panel.add(stockField);
+        stockField.setBounds(710, 50, 170, 28);
+        formPanel.add(stockField);
 
-        // Reorder level
+        // Reorder
         JLabel reorderLabel = new JLabel("Reorder Level:");
-        reorderLabel.setBounds(400, 160, 120, 25);
-        panel.add(reorderLabel);
+        reorderLabel.setFont(new Font("Arial", Font.BOLD, 12));
+        reorderLabel.setBounds(600, 95, 110, 25);
+        formPanel.add(reorderLabel);
 
         reorderField = new JTextField();
-        reorderField.setBounds(520, 160, 180, 28);
-        panel.add(reorderField);
+        reorderField.setBounds(710, 95, 170, 28);
+        formPanel.add(reorderField);
 
-        // Expiry date
-        JLabel expiryLabel = new JLabel("Expiry (YYYY-MM-DD):");
-        expiryLabel.setBounds(730, 80, 150, 25);
-        panel.add(expiryLabel);
+        // Expiry
+        JLabel expiryLabel = new JLabel("Expiry Date:");
+        expiryLabel.setFont(new Font("Arial", Font.BOLD, 12));
+        expiryLabel.setBounds(20, 140, 110, 25);
+        formPanel.add(expiryLabel);
 
         expiryField = new JTextField();
-        expiryField.setBounds(730, 110, 200, 28);
-        panel.add(expiryField);
+        expiryField.setBounds(130, 140, 160, 28);
+        expiryField.setToolTipText("YYYY-MM-DD");
+        formPanel.add(expiryField);
 
         // Supplier
         JLabel supplierLabel = new JLabel("Supplier:");
-        supplierLabel.setBounds(730, 150, 100, 25);
-        panel.add(supplierLabel);
+        supplierLabel.setFont(new Font("Arial", Font.BOLD, 12));
+        supplierLabel.setBounds(320, 140, 100, 25);
+        formPanel.add(supplierLabel);
 
         supplierBox = new JComboBox<>();
-        supplierBox.setBounds(730, 180, 200, 28);
-        panel.add(supplierBox);
+        supplierBox.setBounds(420, 140, 150, 28);
+        formPanel.add(supplierBox);
 
-        // Buttons
-        JButton addButton = new JButton("Add Medicine");
-        addButton.setBounds(80, 230, 170, 35);
+        JLabel dateHint = new JLabel("Format: YYYY-MM-DD");
+        dateHint.setFont(new Font("Arial", Font.ITALIC, 11));
+        dateHint.setForeground(Color.GRAY);
+        dateHint.setBounds(600, 140, 180, 25);
+        formPanel.add(dateHint);
+
+        panel.add(formPanel);
+
+        
+        // ACTION BUTTONS
+        // --------------------------------
+
+        JButton addButton = createButton(
+                "Add Medicine",
+                new Color(45, 105, 135)
+        );
+        addButton.setBounds(80, 310, 170, 36);
         panel.add(addButton);
 
-        JButton updateButton = new JButton("Update Medicine");
-        updateButton.setBounds(270, 230, 170, 35);
+        JButton updateButton = createButton(
+                "Update Medicine",
+                new Color(65, 125, 155)
+        );
+        updateButton.setBounds(270, 310, 170, 36);
         panel.add(updateButton);
 
-        JButton deleteButton = new JButton("Delete Medicine");
-        deleteButton.setBounds(460, 230, 170, 35);
+        JButton deleteButton = createButton(
+                "Delete Medicine",
+                new Color(180, 70, 70)
+        );
+        deleteButton.setBounds(460, 310, 170, 36);
         panel.add(deleteButton);
 
-        JButton clearButton = new JButton("Clear");
-        clearButton.setBounds(650, 230, 120, 35);
+        JButton clearButton = createButton(
+                "Clear Fields",
+                new Color(100, 110, 120)
+        );
+        clearButton.setBounds(650, 310, 170, 36);
         panel.add(clearButton);
 
-        // Medicine table
+        
+        // MEDICINE TABLE
+        // --------------------------------
+
+        JLabel tableTitle = new JLabel("Medicine Inventory");
+        tableTitle.setFont(new Font("Arial", Font.BOLD, 17));
+        tableTitle.setForeground(new Color(45, 105, 135));
+        tableTitle.setBounds(30, 365, 250, 25);
+        panel.add(tableTitle);
+
         tableModel = new DefaultTableModel();
 
         tableModel.setColumnIdentifiers(new String[]{
@@ -136,11 +214,27 @@ public class MedicineManagement extends JFrame {
 
         medicineTable = new JTable(tableModel);
 
+        medicineTable.setFont(new Font("Arial", Font.PLAIN, 12));
+        medicineTable.setRowHeight(25);
+        medicineTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        medicineTable.getTableHeader().setFont(
+                new Font("Arial", Font.BOLD, 12)
+        );
+        medicineTable.getTableHeader().setBackground(
+                new Color(225, 238, 245)
+        );
+
         JScrollPane scrollPane = new JScrollPane(medicineTable);
-        scrollPane.setBounds(30, 290, 920, 280);
+        scrollPane.setBounds(30, 400, 920, 210);
+        scrollPane.setBorder(
+                new LineBorder(new Color(190, 205, 215))
+        );
         panel.add(scrollPane);
 
-        // Button actions
+        
+        // BUTTON ACTIONS
+        //------------------------
+
         addButton.addActionListener(e -> addMedicine());
         updateButton.addActionListener(e -> updateMedicine());
         deleteButton.addActionListener(e -> deleteMedicine());
@@ -157,6 +251,20 @@ public class MedicineManagement extends JFrame {
 
         loadSuppliers();
         loadMedicines();
+    }
+
+    // Create consistent buttons
+    private JButton createButton(String text, Color colour) {
+
+        JButton button = new JButton(text);
+
+        button.setFont(new Font("Arial", Font.BOLD, 13));
+        button.setForeground(Color.WHITE);
+        button.setBackground(colour);
+        button.setFocusPainted(false);
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        return button;
     }
 
     // Load suppliers into the dropdown
