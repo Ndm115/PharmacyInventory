@@ -1,6 +1,7 @@
 package pharmacyinventory;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.sql.*;
 
@@ -13,7 +14,7 @@ public class LoginFrame extends JFrame {
 
         // Window settings
         setTitle("HealthFirst Pharmacy - Login");
-        setSize(450, 350);
+        setSize(500, 420);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
@@ -21,47 +22,93 @@ public class LoginFrame extends JFrame {
         // Main panel
         JPanel panel = new JPanel();
         panel.setLayout(null);
-        panel.setBackground(new Color(240, 248, 255));
+        panel.setBackground(new Color(240, 248, 252));
 
-        // Title
-        JLabel titleLabel = new JLabel("HealthFirst Pharmacy");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        titleLabel.setBounds(100, 35, 280, 35);
-        panel.add(titleLabel);
+        
+        // HEADER
+        //------------------------
+        
+        JPanel headerPanel = new JPanel();
+        headerPanel.setLayout(null);
+        headerPanel.setBackground(new Color(45, 105, 135));
+        headerPanel.setBounds(0, 0, 500, 105);
 
-        // Subtitle
-        JLabel subtitleLabel = new JLabel("Inventory Management System");
+        JLabel titleLabel = new JLabel(
+                "HealthFirst Pharmacy",
+                SwingConstants.CENTER
+        );
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 25));
+        titleLabel.setForeground(Color.WHITE);
+        titleLabel.setBounds(0, 22, 500, 35);
+        headerPanel.add(titleLabel);
+
+        JLabel subtitleLabel = new JLabel(
+                "Inventory Management System",
+                SwingConstants.CENTER
+        );
         subtitleLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-        subtitleLabel.setBounds(125, 70, 250, 25);
-        panel.add(subtitleLabel);
+        subtitleLabel.setForeground(new Color(225, 240, 248));
+        subtitleLabel.setBounds(0, 57, 500, 25);
+        headerPanel.add(subtitleLabel);
+
+        panel.add(headerPanel);
+
+        
+        // LOGIN CARD
+        //------------------------
+        
+        JPanel loginPanel = new JPanel();
+        loginPanel.setLayout(null);
+        loginPanel.setBackground(Color.WHITE);
+        loginPanel.setBorder(new LineBorder(new Color(205, 215, 220)));
+        loginPanel.setBounds(65, 130, 355, 215);
+
+        JLabel loginTitle = new JLabel("User Login");
+        loginTitle.setFont(new Font("Arial", Font.BOLD, 18));
+        loginTitle.setForeground(new Color(45, 105, 135));
+        loginTitle.setBounds(25, 15, 150, 30);
+        loginPanel.add(loginTitle);
 
         // Username label
         JLabel usernameLabel = new JLabel("Username:");
-        usernameLabel.setBounds(70, 120, 100, 30);
-        panel.add(usernameLabel);
+        usernameLabel.setFont(new Font("Arial", Font.BOLD, 13));
+        usernameLabel.setBounds(25, 60, 90, 30);
+        loginPanel.add(usernameLabel);
 
         // Username field
         usernameField = new JTextField();
-        usernameField.setBounds(170, 120, 200, 30);
-        panel.add(usernameField);
+        usernameField.setFont(new Font("Arial", Font.PLAIN, 14));
+        usernameField.setBounds(115, 60, 210, 32);
+        loginPanel.add(usernameField);
 
         // Password label
         JLabel passwordLabel = new JLabel("Password:");
-        passwordLabel.setBounds(70, 165, 100, 30);
-        panel.add(passwordLabel);
+        passwordLabel.setFont(new Font("Arial", Font.BOLD, 13));
+        passwordLabel.setBounds(25, 105, 90, 30);
+        loginPanel.add(passwordLabel);
 
         // Password field
         passwordField = new JPasswordField();
-        passwordField.setBounds(170, 165, 200, 30);
-        panel.add(passwordField);
+        passwordField.setFont(new Font("Arial", Font.PLAIN, 14));
+        passwordField.setBounds(115, 105, 210, 32);
+        loginPanel.add(passwordField);
 
         // Login button
         JButton loginButton = new JButton("Login");
-        loginButton.setBounds(170, 220, 120, 35);
-        panel.add(loginButton);
+        loginButton.setFont(new Font("Arial", Font.BOLD, 14));
+        loginButton.setForeground(Color.WHITE);
+        loginButton.setBackground(new Color(45, 105, 135));
+        loginButton.setFocusPainted(false);
+        loginButton.setBounds(115, 155, 210, 35);
+        loginPanel.add(loginButton);
 
         // Run login method when button is clicked
         loginButton.addActionListener(e -> login());
+
+        // Pressing Enter also logs in
+        getRootPane().setDefaultButton(loginButton);
+
+        panel.add(loginPanel);
 
         add(panel);
     }
@@ -89,7 +136,7 @@ public class LoginFrame extends JFrame {
         try (
                 Connection connection = DatabaseConnection.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql)
-            ) {
+        ) {
 
             statement.setString(1, username);
             statement.setString(2, password);
