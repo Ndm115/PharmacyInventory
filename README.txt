@@ -107,16 +107,34 @@ Password: cash123
 
 
 --------------------------------------------------
-HOW TO RUN THE PROJECT
+HOW TO RUN THE APPLICATION
 --------------------------------------------------
 
-1. Start the MySQL Server.
+1. Ensure MySQL Server is installed and running.
+
 2. Import the supplied database.sql file into MySQL.
-3. Open the PharmacyInventory project in Apache NetBeans.
-4. Ensure that MySQL Connector/J is included in the project libraries.
-5. Check the database connection settings in DatabaseConnection.java.
-6. Run PharmacyInventory.java.
-7. Log in using either the Admin or Cashier account.
+   The script will create the pharmacy_inventory database,
+   required tables and sample data.
+
+3. Ensure the MySQL connection details match the settings
+   used in DatabaseConnection.java.
+
+4. Run nadeem_pims.exe.
+
+5. Use one of the following accounts to log in:
+
+   Admin:
+   Username: admin
+   Password: admin123
+
+   Cashier:
+   Username: cashier
+   Password: cash123
+
+NOTE:
+The dist folder must remain in the same folder as nadeem_pims.exe
+because it contains the Java application and required MySQL JDBC
+driver files.
 
 
 --------------------------------------------------
