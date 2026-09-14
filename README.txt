@@ -150,11 +150,3 @@ CashierDashboard.java
 ReportsFrame.java
 - Displays sales, item-wise, low stock and expiry reports.
 
-
---------------------------------------------------
-NOTES
---------------------------------------------------
-
-The system was developed as part of the Programming 732 assignment.
-It demonstrates Java GUI development, object-oriented programming,
-JDBC database connectivity and MySQL database management.
