@@ -33,30 +33,50 @@ public class CashierDashboard extends JFrame {
         setSize(1050, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        setResizable(false);
 
         JPanel panel = new JPanel(null);
-        panel.setBackground(new Color(240, 248, 255));
+        panel.setBackground(new Color(240, 248, 252));
 
         
-        // HEADING
-        
+        // HEADER
+        // --------------------------------
+
+        JPanel headerPanel = new JPanel(null);
+        headerPanel.setBackground(new Color(45, 105, 135));
+        headerPanel.setBounds(0, 0, 1050, 90);
 
         JLabel titleLabel = new JLabel("Point of Sale");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 26));
-        titleLabel.setBounds(30, 20, 250, 35);
-        panel.add(titleLabel);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 25));
+        titleLabel.setForeground(Color.WHITE);
+        titleLabel.setBounds(30, 17, 300, 35);
+        headerPanel.add(titleLabel);
 
         JLabel cashierLabel = new JLabel("Cashier: " + cashierName);
-        cashierLabel.setBounds(30, 55, 300, 25);
-        panel.add(cashierLabel);
+        cashierLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        cashierLabel.setForeground(new Color(225, 240, 248));
+        cashierLabel.setBounds(30, 50, 350, 25);
+        headerPanel.add(cashierLabel);
+
+        JLabel pharmacyLabel = new JLabel(
+                "HealthFirst Pharmacy",
+                SwingConstants.RIGHT
+        );
+        pharmacyLabel.setFont(new Font("Arial", Font.BOLD, 15));
+        pharmacyLabel.setForeground(Color.WHITE);
+        pharmacyLabel.setBounds(750, 30, 250, 30);
+        headerPanel.add(pharmacyLabel);
+
+        panel.add(headerPanel);
 
         
         // AVAILABLE MEDICINES
-       
+        // --------------------------------
 
         JLabel medicineLabel = new JLabel("Available Medicines");
-        medicineLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        medicineLabel.setBounds(30, 95, 200, 25);
+        medicineLabel.setFont(new Font("Arial", Font.BOLD, 17));
+        medicineLabel.setForeground(new Color(45, 105, 135));
+        medicineLabel.setBounds(30, 110, 250, 25);
         panel.add(medicineLabel);
 
         medicineModel = new DefaultTableModel();
@@ -66,38 +86,81 @@ public class CashierDashboard extends JFrame {
         });
 
         medicineTable = new JTable(medicineModel);
+        medicineTable.setFont(new Font("Arial", Font.PLAIN, 12));
+        medicineTable.setRowHeight(25);
+        medicineTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        medicineTable.getTableHeader().setFont(
+                new Font("Arial", Font.BOLD, 12)
+        );
+
+        medicineTable.getTableHeader().setBackground(
+                new Color(225, 238, 245)
+        );
 
         JScrollPane medicineScroll = new JScrollPane(medicineTable);
-        medicineScroll.setBounds(30, 125, 600, 190);
+        medicineScroll.setBounds(30, 145, 650, 190);
+        medicineScroll.setBorder(
+                BorderFactory.createLineBorder(
+                        new Color(190, 205, 215)
+                )
+        );
         panel.add(medicineScroll);
 
-        // Quantity
+        
+        // SALE OPTIONS
+        // --------------------------------
+
+        JPanel optionsPanel = new JPanel(null);
+        optionsPanel.setBackground(Color.WHITE);
+        optionsPanel.setBorder(
+                BorderFactory.createLineBorder(
+                        new Color(205, 215, 220)
+                )
+        );
+        optionsPanel.setBounds(710, 145, 290, 190);
+
+        JLabel optionsTitle = new JLabel("Sale Options");
+        optionsTitle.setFont(new Font("Arial", Font.BOLD, 16));
+        optionsTitle.setForeground(new Color(45, 105, 135));
+        optionsTitle.setBounds(20, 15, 180, 25);
+        optionsPanel.add(optionsTitle);
+
         JLabel quantityLabel = new JLabel("Quantity:");
-        quantityLabel.setBounds(670, 140, 80, 30);
-        panel.add(quantityLabel);
+        quantityLabel.setFont(new Font("Arial", Font.BOLD, 12));
+        quantityLabel.setBounds(20, 55, 80, 30);
+        optionsPanel.add(quantityLabel);
 
         quantitySpinner = new JSpinner(
                 new SpinnerNumberModel(1, 1, 100, 1)
         );
+        quantitySpinner.setBounds(105, 55, 145, 30);
+        optionsPanel.add(quantitySpinner);
 
-        quantitySpinner.setBounds(750, 140, 100, 30);
-        panel.add(quantitySpinner);
+        JButton addCartButton = createPOSButton(
+                "Add to Cart",
+                new Color(45, 105, 135)
+        );
+        addCartButton.setBounds(20, 105, 230, 32);
+        optionsPanel.add(addCartButton);
 
-        JButton addCartButton = new JButton("Add to Cart");
-        addCartButton.setBounds(670, 190, 180, 40);
-        panel.add(addCartButton);
+        JButton stockCheckButton = createPOSButton(
+                "Check Stock",
+                new Color(65, 125, 155)
+        );
+        stockCheckButton.setBounds(20, 145, 230, 32);
+        optionsPanel.add(stockCheckButton);
 
-        JButton stockCheckButton = new JButton("Check Stock");
-        stockCheckButton.setBounds(670, 245, 180, 40);
-        panel.add(stockCheckButton);
+        panel.add(optionsPanel);
 
         
         // SHOPPING CART
-        
+        // --------------------------------
 
         JLabel cartLabel = new JLabel("Shopping Cart");
-        cartLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        cartLabel.setBounds(30, 340, 200, 25);
+        cartLabel.setFont(new Font("Arial", Font.BOLD, 17));
+        cartLabel.setForeground(new Color(45, 105, 135));
+        cartLabel.setBounds(30, 360, 200, 25);
         panel.add(cartLabel);
 
         cartModel = new DefaultTableModel();
@@ -107,42 +170,82 @@ public class CashierDashboard extends JFrame {
         });
 
         cartTable = new JTable(cartModel);
+        cartTable.setFont(new Font("Arial", Font.PLAIN, 12));
+        cartTable.setRowHeight(25);
+        cartTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        cartTable.getTableHeader().setFont(
+                new Font("Arial", Font.BOLD, 12)
+        );
+
+        cartTable.getTableHeader().setBackground(
+                new Color(225, 238, 245)
+        );
 
         JScrollPane cartScroll = new JScrollPane(cartTable);
-        cartScroll.setBounds(30, 370, 650, 190);
+        cartScroll.setBounds(30, 395, 650, 200);
+        cartScroll.setBorder(
+                BorderFactory.createLineBorder(
+                        new Color(190, 205, 215)
+                )
+        );
         panel.add(cartScroll);
 
-        // Total
+        
+        // SALE SUMMARY
+        // --------------------------------
+
+        JPanel checkoutPanel = new JPanel(null);
+        checkoutPanel.setBackground(Color.WHITE);
+        checkoutPanel.setBorder(
+                BorderFactory.createLineBorder(
+                        new Color(205, 215, 220)
+                )
+        );
+        checkoutPanel.setBounds(710, 395, 290, 200);
+
+        JLabel summaryLabel = new JLabel("Sale Summary");
+        summaryLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        summaryLabel.setForeground(new Color(45, 105, 135));
+        summaryLabel.setBounds(20, 15, 180, 25);
+        checkoutPanel.add(summaryLabel);
+
         totalLabel = new JLabel("Total: R0.00");
-        totalLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        totalLabel.setBounds(730, 370, 250, 40);
-        panel.add(totalLabel);
+        totalLabel.setFont(new Font("Arial", Font.BOLD, 22));
+        totalLabel.setForeground(new Color(45, 105, 135));
+        totalLabel.setBounds(20, 50, 240, 35);
+        checkoutPanel.add(totalLabel);
 
-        // Checkout button
-        JButton checkoutButton = new JButton("Checkout");
-        checkoutButton.setBounds(730, 430, 180, 40);
-        panel.add(checkoutButton);
+        JButton checkoutButton = createPOSButton(
+                "Checkout",
+                new Color(45, 105, 135)
+        );
+        checkoutButton.setBounds(20, 95, 230, 32);
+        checkoutPanel.add(checkoutButton);
 
-        // Clear cart button
-        JButton clearCartButton = new JButton("Clear Cart");
-        clearCartButton.setBounds(730, 485, 180, 40);
-        panel.add(clearCartButton);
+        JButton clearCartButton = createPOSButton(
+                "Clear Cart",
+                new Color(100, 110, 120)
+        );
+        clearCartButton.setBounds(20, 135, 110, 32);
+        checkoutPanel.add(clearCartButton);
 
-        // Logout button
-        JButton logoutButton = new JButton("Logout");
-        logoutButton.setBounds(730, 540, 180, 40);
-        panel.add(logoutButton);
+        JButton logoutButton = createPOSButton(
+                "Logout",
+                new Color(180, 70, 70)
+        );
+        logoutButton.setBounds(140, 135, 110, 32);
+        checkoutPanel.add(logoutButton);
+
+        panel.add(checkoutPanel);
 
         
         // BUTTON ACTIONS
-        
+        // --------------------------------
 
         addCartButton.addActionListener(e -> addToCart());
-
         stockCheckButton.addActionListener(e -> checkStock());
-
         clearCartButton.addActionListener(e -> clearCart());
-
         checkoutButton.addActionListener(e -> checkout());
 
         logoutButton.addActionListener(e -> {
@@ -156,9 +259,23 @@ public class CashierDashboard extends JFrame {
         loadMedicines();
     }
 
+    // Create consistent POS buttons
+    private JButton createPOSButton(String text, Color colour) {
+
+        JButton button = new JButton(text);
+
+        button.setFont(new Font("Arial", Font.BOLD, 12));
+        button.setForeground(Color.WHITE);
+        button.setBackground(colour);
+        button.setFocusPainted(false);
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        return button;
+    }
+
     
     // LOAD MEDICINES
-   
+    // --------------------------------
 
     private void loadMedicines() {
 
@@ -172,7 +289,7 @@ public class CashierDashboard extends JFrame {
                 Connection connection = DatabaseConnection.getConnection();
                 Statement statement = connection.createStatement();
                 ResultSet result = statement.executeQuery(sql)
-            ) {
+        ) {
 
             while (result.next()) {
 
@@ -196,7 +313,7 @@ public class CashierDashboard extends JFrame {
 
     
     // ADD MEDICINE TO CART
-    
+    // --------------------------------
 
     private void addToCart() {
 
@@ -262,7 +379,7 @@ public class CashierDashboard extends JFrame {
 
     
     // CHECK MEDICINE STOCK
-    
+    // --------------------------------
 
     private void checkStock() {
 
@@ -301,7 +418,7 @@ public class CashierDashboard extends JFrame {
 
     
     // CLEAR CART
-    
+    // --------------------------------
 
     private void clearCart() {
 
@@ -316,7 +433,7 @@ public class CashierDashboard extends JFrame {
 
     
     // CHECKOUT
-    
+    // --------------------------------
 
     private void checkout() {
 
@@ -342,7 +459,7 @@ public class CashierDashboard extends JFrame {
 
             
             // SAVE SALE
-            
+            // --------------------------------
 
             String saleSQL
                     = "INSERT INTO sales (total_amount, user_id) "
@@ -374,7 +491,7 @@ public class CashierDashboard extends JFrame {
 
             
             // SAVE SALE ITEMS
-            
+            // --------------------------------
 
             String itemSQL
                     = "INSERT INTO sale_items "
@@ -425,7 +542,7 @@ public class CashierDashboard extends JFrame {
 
             
             // CREATE BILL
-            
+            // --------------------------------
 
             StringBuilder bill = new StringBuilder();
 
@@ -486,7 +603,7 @@ public class CashierDashboard extends JFrame {
 
             
             // COMPLETE TRANSACTION
-            
+            // --------------------------------
 
             connection.commit();
 
@@ -544,7 +661,7 @@ public class CashierDashboard extends JFrame {
 
     
     // BILL WINDOW
-    
+    // --------------------------------
 
     private void showBillWindow(
             String billText,
@@ -575,9 +692,9 @@ public class CashierDashboard extends JFrame {
                 )
         );
 
-       
-        // BILL TEXT
         
+        // BILL TEXT
+        // --------------------------------
 
         JTextArea billArea
                 = new JTextArea(billText);
@@ -602,7 +719,7 @@ public class CashierDashboard extends JFrame {
 
         
         // BILL BUTTONS
-        
+        // --------------------------------
 
         JPanel buttonPanel = new JPanel();
 
@@ -624,9 +741,9 @@ public class CashierDashboard extends JFrame {
                 BorderLayout.SOUTH
         );
 
-       
-        // SAVE BILL
         
+        // SAVE BILL
+        // --------------------------------
 
         saveButton.addActionListener(e -> {
 
@@ -655,7 +772,7 @@ public class CashierDashboard extends JFrame {
                 try (
                         FileWriter writer
                         = new FileWriter(file)
-                    ) {
+                ) {
 
                     writer.write(billText);
 
@@ -678,7 +795,8 @@ public class CashierDashboard extends JFrame {
 
         
         // PRINT BILL
-       
+        // --------------------------------
+
         printButton.addActionListener(e -> {
 
             try {
@@ -707,7 +825,7 @@ public class CashierDashboard extends JFrame {
 
         
         // CLOSE BILL
-        
+        // --------------------------------
 
         closeButton.addActionListener(e -> {
 
