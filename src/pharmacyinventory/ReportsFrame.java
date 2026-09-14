@@ -1,6 +1,7 @@
 package pharmacyinventory;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.sql.*;
@@ -13,57 +14,127 @@ public class ReportsFrame extends JFrame {
 
     public ReportsFrame() {
 
+        // Window settings
         setTitle("HealthFirst Pharmacy - Reports");
         setSize(1000, 650);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
+        setResizable(false);
 
         JPanel panel = new JPanel(null);
-        panel.setBackground(new Color(240, 248, 255));
+        panel.setBackground(new Color(240, 248, 252));
 
-        // Main title
+        
+        // HEADER
+        // -----------------------------------
+
+        JPanel headerPanel = new JPanel(null);
+        headerPanel.setBackground(new Color(45, 105, 135));
+        headerPanel.setBounds(0, 0, 1000, 90);
+
         JLabel titleLabel = new JLabel("Pharmacy Reports");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 26));
-        titleLabel.setBounds(30, 20, 300, 35);
-        panel.add(titleLabel);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 25));
+        titleLabel.setForeground(Color.WHITE);
+        titleLabel.setBounds(30, 17, 350, 35);
+        headerPanel.add(titleLabel);
 
-        // Report buttons
-        JButton salesButton = new JButton("Sales Report");
-        salesButton.setBounds(30, 80, 180, 40);
+        JLabel subtitleLabel = new JLabel(
+                "View sales, stock and expiry information"
+        );
+        subtitleLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        subtitleLabel.setForeground(new Color(225, 240, 248));
+        subtitleLabel.setBounds(30, 50, 400, 25);
+        headerPanel.add(subtitleLabel);
+
+        panel.add(headerPanel);
+
+        
+        // REPORT SELECTION
+        // -----------------------------------
+
+        JLabel selectionLabel = new JLabel("Select Report");
+        selectionLabel.setFont(new Font("Arial", Font.BOLD, 17));
+        selectionLabel.setForeground(new Color(45, 105, 135));
+        selectionLabel.setBounds(30, 115, 200, 25);
+        panel.add(selectionLabel);
+
+        JButton salesButton = createButton("Sales Report");
+        salesButton.setBounds(30, 150, 200, 40);
         panel.add(salesButton);
 
-        JButton itemButton = new JButton("Item-Wise Report");
-        itemButton.setBounds(230, 80, 180, 40);
+        JButton itemButton = createButton("Item-Wise Report");
+        itemButton.setBounds(250, 150, 200, 40);
         panel.add(itemButton);
 
-        JButton lowStockButton = new JButton("Low Stock Report");
-        lowStockButton.setBounds(430, 80, 180, 40);
+        JButton lowStockButton = createButton("Low Stock Report");
+        lowStockButton.setBounds(470, 150, 200, 40);
         panel.add(lowStockButton);
 
-        JButton expiryButton = new JButton("Expiry Report");
-        expiryButton.setBounds(630, 80, 180, 40);
+        JButton expiryButton = createButton("Expiry Report");
+        expiryButton.setBounds(690, 150, 200, 40);
         panel.add(expiryButton);
 
-        // Current report heading
-        reportTitle = new JLabel("Select a report");
+        
+        // CURRENT REPORT
+        // -----------------------------------
+
+        JPanel reportPanel = new JPanel(null);
+        reportPanel.setBackground(Color.WHITE);
+        reportPanel.setBorder(
+                new LineBorder(new Color(205, 215, 220))
+        );
+        reportPanel.setBounds(30, 215, 920, 325);
+
+        reportTitle = new JLabel("Select a report to view");
         reportTitle.setFont(new Font("Arial", Font.BOLD, 18));
-        reportTitle.setBounds(30, 145, 400, 30);
-        panel.add(reportTitle);
+        reportTitle.setForeground(new Color(45, 105, 135));
+        reportTitle.setBounds(20, 15, 500, 30);
+        reportPanel.add(reportTitle);
 
         // Report table
         tableModel = new DefaultTableModel();
         reportTable = new JTable(tableModel);
 
-        JScrollPane scrollPane = new JScrollPane(reportTable);
-        scrollPane.setBounds(30, 185, 920, 370);
-        panel.add(scrollPane);
+        reportTable.setFont(new Font("Arial", Font.PLAIN, 12));
+        reportTable.setRowHeight(25);
+        reportTable.setSelectionMode(
+                ListSelectionModel.SINGLE_SELECTION
+        );
 
-        // Close button
+        reportTable.getTableHeader().setFont(
+                new Font("Arial", Font.BOLD, 12)
+        );
+
+        reportTable.getTableHeader().setBackground(
+                new Color(225, 238, 245)
+        );
+
+        JScrollPane scrollPane = new JScrollPane(reportTable);
+        scrollPane.setBounds(20, 55, 880, 245);
+        scrollPane.setBorder(
+                new LineBorder(new Color(190, 205, 215))
+        );
+        reportPanel.add(scrollPane);
+
+        panel.add(reportPanel);
+
+        
+        // CLOSE BUTTON
+        // -----------------------------------
+
         JButton closeButton = new JButton("Close");
-        closeButton.setBounds(820, 570, 130, 35);
+        closeButton.setFont(new Font("Arial", Font.BOLD, 13));
+        closeButton.setForeground(Color.WHITE);
+        closeButton.setBackground(new Color(100, 110, 120));
+        closeButton.setFocusPainted(false);
+        closeButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        closeButton.setBounds(800, 560, 150, 36);
         panel.add(closeButton);
 
-        // Button actions
+        
+        // BUTTON ACTIONS
+        // -----------------------------------
+
         salesButton.addActionListener(e -> loadSalesReport());
         itemButton.addActionListener(e -> loadItemWiseReport());
         lowStockButton.addActionListener(e -> loadLowStockReport());
@@ -74,7 +145,21 @@ public class ReportsFrame extends JFrame {
         add(panel);
     }
 
-    // -----------------------------------
+    // Create consistent report buttons
+    private JButton createButton(String text) {
+
+        JButton button = new JButton(text);
+
+        button.setFont(new Font("Arial", Font.BOLD, 13));
+        button.setForeground(Color.WHITE);
+        button.setBackground(new Color(45, 105, 135));
+        button.setFocusPainted(false);
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        return button;
+    }
+
+    
     // SALES REPORT
     // -----------------------------------
 
@@ -99,7 +184,7 @@ public class ReportsFrame extends JFrame {
                 Connection connection = DatabaseConnection.getConnection();
                 Statement statement = connection.createStatement();
                 ResultSet result = statement.executeQuery(sql)
-            ) {
+        ) {
 
             while (result.next()) {
 
@@ -117,7 +202,7 @@ public class ReportsFrame extends JFrame {
         }
     }
 
-    // -----------------------------------
+    
     // ITEM-WISE REPORT
     // -----------------------------------
 
@@ -145,7 +230,7 @@ public class ReportsFrame extends JFrame {
                 Connection connection = DatabaseConnection.getConnection();
                 Statement statement = connection.createStatement();
                 ResultSet result = statement.executeQuery(sql)
-            ) {
+        ) {
 
             while (result.next()) {
 
@@ -162,7 +247,7 @@ public class ReportsFrame extends JFrame {
         }
     }
 
-    // -----------------------------------
+    
     // LOW STOCK REPORT
     // -----------------------------------
 
@@ -187,7 +272,7 @@ public class ReportsFrame extends JFrame {
                 Connection connection = DatabaseConnection.getConnection();
                 Statement statement = connection.createStatement();
                 ResultSet result = statement.executeQuery(sql)
-            ) {
+        ) {
 
             while (result.next()) {
 
@@ -205,7 +290,7 @@ public class ReportsFrame extends JFrame {
         }
     }
 
-    // -----------------------------------
+    
     // EXPIRY REPORT
     // -----------------------------------
 
@@ -231,7 +316,7 @@ public class ReportsFrame extends JFrame {
                 Connection connection = DatabaseConnection.getConnection();
                 Statement statement = connection.createStatement();
                 ResultSet result = statement.executeQuery(sql)
-            ) {
+        ) {
 
             while (result.next()) {
 
